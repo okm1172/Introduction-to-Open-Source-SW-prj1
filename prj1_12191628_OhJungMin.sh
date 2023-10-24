@@ -82,19 +82,15 @@ func_7() {
 func_8() {
 	echo ""
 	age20_29=$(cat $2 | awk -v occupation="programmer" -F '|' '$2>=20 && $2<=29 && $4==occupation {printf("%d\n",$1)}')
-	#echo $age20_29
 	for who in $age20_29
 	do
 		cat $1 | awk -v person=$who '$1==person {print $2,$3}' >> final_data
 	done
-	#$(rm final_data)
-	#자 이제 모든 데이터가 들어왔고
 	for num in $(seq 1 1682)
 	do
 		cat final_data | awk -v n=$num -v cnt=0 -v sum=0 '$1==n {cnt+=1;sum+=$2} END {print n,sum,cnt}' >> real_final
 	done
 	$(rm final_data)
-	#$(rm final_data_sort)
 	cat real_final | awk '$3>0 {printf("%d %.6g\n",$1,$2/$3)}'
 	$(rm real_final)
 	echo ""
